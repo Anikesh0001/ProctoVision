@@ -120,6 +120,20 @@ src/
   </tr>
 </table>
 
+<table>
+<caption><strong>CP4-Alert System + Pose Monitoring </strong></caption>
+  
+  <tr>
+    <td>
+      <img src="./public/screenshots/cp4.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+    <td>
+      <img src="./public/screenshots/cp4_1.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+   
+  </tr>
+</table>
+
 ---
 
 ## 💡 How It Works
