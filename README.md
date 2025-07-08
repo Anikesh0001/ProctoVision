@@ -76,17 +76,16 @@ src/
 
 ## 🧭 Hackathon Checkpoint Plan
 
-| CP  | Goal                        | Files Involved                                 |
-| --- | --------------------------- | ---------------------------------------------- |
-| CP0 | Kickoff & folder setup      | Project init, Tailwind setup                   |
-| CP1 | UI layout                   | `App.tsx`, `main.tsx`                          |
-| CP2 | Webcam + Canvas             | `RealTimeDetection.tsx`                        |
-| CP3 | Object Detection live       | `RealTimeDetection.tsx`                        |
-| CP4 | Alert system                | `AlertBanner.tsx`                              |
-| CP5 | Detection logs              | `DetectionLogs.tsx`                            |
-| CP6 | Concept & YOLO architecture | `ConceptsOverview.tsx`, `YOLOArchitecture.tsx` |
-| CP7 | Export logs, filter         | `DetectionLogs.tsx`                            |
-| CP8 | Final demo, polish          | README, screenshots, UI polishing              |
+| CP  | Goal                                   | Files Involved                                                                         |
+| --- | -------------------------------------- | -------------------------------------------------------------------------------------- |
+| CP1 | Kickoff & folder setup                 | Project init, Tailwind setup                                                           |
+| CP2 | UI Layout Scaffold                     | `App.tsx`, `main.tsx`, Tailwind layout, placeholder sections                           |
+| CP3 | Live Webcam + Object Detection (TFJS)  | `RealTimeDetection.tsx`, `@tensorflow-models/coco-ssd`, webcam, canvas, detection loop |
+| CP4 | Alert System + Pose Monitoring         | `AlertBanner.tsx`, `PoseDetection.tsx`, `App.tsx`, risk score, suspicious pose alerts  |
+| CP5 | Detection Logs + Risk Calculation      | `DetectionLogs.tsx`, `App.tsx`, timestamp logs, filters, risk scoring                  |
+| CP6 | Detection Settings Panel               | `DetectionSettings.tsx`, user control for classes, sound, sensitivity, logging         |
+| CP7 | Learning Visualizations                | `ConceptsOverview.tsx`, `YOLOArchitecture.tsx`, CV education with YOLO visual grid     |
+| CP8 | Annotation + Detection Demo Playground | `BoundingBoxDemo.tsx`, `ObjectDetectionDemo.tsx`, box drawing + fake detection sim     |
 
 ---
 
@@ -104,6 +103,20 @@ src/
     <td>
       <img src="./public/screenshots/cp2.png" alt="CP1 Screenshot" width="400"/>
     </td>
+  </tr>
+</table>
+
+<table>
+<caption><strong>CP3-Live Webcam + Object Detection </strong></caption>
+  
+  <tr>
+    <td>
+      <img src="./public/screenshots/cp3.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+    <td>
+      <img src="./public/screenshots/cp3_1.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+   
   </tr>
 </table>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import RealTimeDetection from "./components/RealTimeDetection";
 
 function App() {
   return (
@@ -24,6 +25,12 @@ function App() {
           <div className="text-gray-400 italic">
             Settings panel coming soon…
           </div>
+        </section>
+
+        {/* Live Detection Section */}
+        <section className="bg-slate-800 rounded-xl p-6 shadow-lg">
+          <h2 className="text-xl font-semibold mb-4">📷 Live Detection</h2>
+          <RealTimeDetection />
         </section>
 
         {/* Logs Section */}
