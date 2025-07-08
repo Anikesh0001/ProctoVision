@@ -1,0 +1,153 @@
+# 🚨 VisionSentinel – Real-Time Suspicious Object Detection System
+
+An **AI-powered**, **privacy-first**, and **web-based** surveillance solution for **exam proctoring**, **public safety**, and **human-centric monitoring**.  
+Built during **HackOrbit 2025** by Team **AIvengers**.
+
+---
+
+## 🧠 Project Summary
+
+**Team Name:** AIvengers  
+**Hackathon:** HackOrbit 2025 – MITS Gwalior  
+**Members:**
+
+- 👨‍💻 Anikesh Kumar – Full Stack & AI Developer
+- 👩‍💻 Aishwarya G M – UI/UX & Testing Engineer
+
+---
+
+## 🎯 Project Vision
+
+To develop a **real-time suspicious object detection system** that runs entirely in-browser (Edge AI), triggering alerts and maintaining logs, with full user control — all without compromising privacy.
+
+---
+
+## 📁 Directory Structure
+
+```
+src/
+├── App.tsx
+├── main.tsx
+├── index.css
+├── vite-env.d.ts
+└── components/
+    ├── AlertBanner.tsx
+    ├── BoundingBoxDemo.tsx
+    ├── ConceptsOverview.tsx
+    ├── DetectionLogs.tsx
+    ├── DetectionSettings.tsx
+    ├── ObjectDetectionDemo.tsx
+    ├── PoseDetection.tsx
+    ├── RealTimeDetection.tsx
+    └── YOLOArchitecture.tsx
+```
+
+---
+
+## 🧩 Component Descriptions
+
+| File                      | Purpose                                                                |
+| ------------------------- | ---------------------------------------------------------------------- |
+| `App.tsx`                 | Main layout and router for the application                             |
+| `main.tsx`                | React entry point                                                      |
+| `index.css`               | TailwindCSS styling and global styles                                  |
+| `AlertBanner.tsx`         | Displays visual alerts and triggers sound when suspicious object found |
+| `BoundingBoxDemo.tsx`     | Interactive tool to manually draw bounding boxes                       |
+| `ConceptsOverview.tsx`    | Educational component explaining Computer Vision & Object Detection    |
+| `DetectionLogs.tsx`       | Records and displays all suspicious detections with export support     |
+| `DetectionSettings.tsx`   | Lets user choose object classes, alert preferences, thresholds         |
+| `ObjectDetectionDemo.tsx` | Demo version to simulate how object detection works                    |
+| `PoseDetection.tsx`       | Detects posture/pose to track cheating via head/movement               |
+| `RealTimeDetection.tsx`   | Main AI engine – loads model, renders webcam, and detects in real-time |
+| `YOLOArchitecture.tsx`    | Visual breakdown of how the YOLO model works                           |
+
+---
+
+## 🔧 Tech Stack
+
+| Layer         | Tools Used                     |
+| ------------- | ------------------------------ |
+| Frontend      | React, TypeScript, TailwindCSS |
+| AI Framework  | TensorFlow.js, COCO-SSD, YOLO  |
+| Visualization | Canvas API, HTML5, Audio API   |
+| Dev Tools     | Vite, GitHub, draw.io, Netlify |
+
+---
+
+## 🧭 Hackathon Checkpoint Plan
+
+| CP  | Goal                        | Files Involved                                 |
+| --- | --------------------------- | ---------------------------------------------- |
+| CP0 | Kickoff & folder setup      | Project init, Tailwind setup                   |
+| CP1 | UI layout                   | `App.tsx`, `main.tsx`                          |
+| CP2 | Webcam + Canvas             | `RealTimeDetection.tsx`                        |
+| CP3 | Object Detection live       | `RealTimeDetection.tsx`                        |
+| CP4 | Alert system                | `AlertBanner.tsx`                              |
+| CP5 | Detection logs              | `DetectionLogs.tsx`                            |
+| CP6 | Concept & YOLO architecture | `ConceptsOverview.tsx`, `YOLOArchitecture.tsx` |
+| CP7 | Export logs, filter         | `DetectionLogs.tsx`                            |
+| CP8 | Final demo, polish          | README, screenshots, UI polishing              |
+
+---
+
+## 📸 Checkpoint Progress Screenshots
+
+### ✅ CP1 – UI Layout
+
+![CP1 Layout](./public/screenshots/cp1.png)
+
+---
+
+## 💡 How It Works
+
+1. 📷 Webcam feed accessed via HTML5
+2. 🧠 YOLO / COCO model loads via TensorFlow.js
+3. 🟩 Suspicious objects detected in real-time
+4. 🔊 Alerts triggered visually and via sound
+5. 🗂 Logs saved with timestamps and object type
+6. 🧘‍♂️ Posture changes tracked (via Pose Detection)
+
+---
+
+## 📦 Install & Run
+
+```bash
+git clone https://github.com/Anikesh0001/ProctoVision.git
+cd ProctoVision
+npm install
+npm run dev
+```
+
+> Visit: `http://localhost:5173` in Chrome  
+> ✅ Allow camera permissions
+
+---
+
+## 🚀 Features
+
+- 🎯 Real-time Object Detection (YOLO via TensorFlow.js)
+- 🔐 Privacy-first (Edge AI, no cloud)
+- 🔊 Alerts with banner + audio
+- 🗃️ Detection log history + export
+- ⚙️ User customization (object class, sensitivity)
+- 🧠 Built-in CV education (YOLO layers, concepts)
+- 🧘 Pose tracking to prevent cheating posture
+
+---
+
+## 👥 Team AIvengers
+
+- **Anikesh Kumar** – AI Developer, Backend, Integration
+- **Aishwarya G M** – UI/UX, Testing, Frontend Logic
+
+---
+
+## 📬 Contact
+
+- 📧 Anikesh: anikeshkr0001@gmail.com
+- 📧 Aishwarya: aishwaryagirish1211@gmail.com
+- 🔗 GitHub: [https://github.com/Anikesh0001/ProctoVision](https://github.com/Anikesh0001/ProctoVision)
+
+---
+
+_Made with ❤️ for HackOrbit 2025 — Built ethically, deployed intelligently._
