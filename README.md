@@ -92,9 +92,20 @@ src/
 
 ## 📸 Checkpoint Progress Screenshots
 
-### ✅ CP1 – UI Layout
-
-![CP1 Layout](./public/screenshots/cp1.png)
+<table>
+  <tr>
+    <td align="center"><strong>CP1 – Initialization</strong></td>
+    <td align="center"><strong>CP2 – UI Layout</strong></td>
+  </tr>
+  <tr>
+    <td>
+      <img src="./public/screenshots/cp1.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+    <td>
+      <img src="./public/screenshots/cp2.png" alt="CP1 Screenshot" width="400"/>
+    </td>
+  </tr>
+</table>
 
 ---
 
