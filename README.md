@@ -133,6 +133,18 @@ src/
    
   </tr>
 </table>
+</table>
+<table>
+<caption><strong>CP5-Detection Logs + Risk Calculation</strong></caption>
+  
+  <tr>
+    <td>
+      <img src="./public/screenshots/cp5.png" alt="CP0 Screenshot" width="800"/>
+    </td>
+    
+   
+  </tr>
+</table>
 
 ---
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import RealTimeDetection from "./components/RealTimeDetection";
 import PoseDetection from "./components/PoseDetection";
 import AlertBanner from "./components/AlertBanner";
+import DetectionLogs from "./components/DetectionLogs";
 
 const playAlertSound = () => {
   try {
@@ -34,9 +35,21 @@ function App() {
   const [lastSuspiciousTime, setLastSuspiciousTime] = useState(0);
   const [lastPoseMessage, setLastPoseMessage] = useState("");
   const [poseExplanation, setPoseExplanation] = useState("");
+  const [detectionLogs, setDetectionLogs] = useState([]);
 
   const [detectionSettings] = useState({
+    sensitivity: 0.6,
     alertSound: true,
+    logEvents: true,
+    suspiciousClasses: [
+      "book",
+      "cell phone",
+      "remote",
+      "scissors",
+      "teddy bear",
+      "hair drier",
+      "toothbrush",
+    ],
   });
 
   useEffect(() => {
@@ -45,6 +58,29 @@ function App() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+
+  const updateRiskScore = (type: string) => {
+    setRiskScore((prev) => {
+      let newScore = prev;
+      if (["Looking Away", "Head Tilt Detected"].includes(type)) {
+        newScore += 15;
+      } else if (detectionSettings.suspiciousClasses.includes(type)) {
+        newScore += 10;
+      }
+      return Math.min(newScore, 100);
+    });
+  };
+
+  const getExplanationForPose = (alertType: string) => {
+    switch (alertType) {
+      case "Looking Away":
+        return "The student is looking away from the screen.";
+      case "Head Tilt Detected":
+        return "Head tilt might indicate checking surroundings.";
+      default:
+        return "Unusual movement detected.";
+    }
+  };
 
   const handleCheatingPose = (alertType: string) => {
     const now = Date.now();
@@ -64,27 +100,42 @@ function App() {
     setLastPoseMessage(alertType);
     setPoseExplanation(getExplanationForPose(alertType));
     updateRiskScore(alertType);
+
+    // Also log this pose
+    const logEntry = {
+      id: now,
+      timestamp: new Date().toLocaleString(),
+      object: alertType,
+      confidence: 1.0,
+      suspicious: true,
+    };
+
+    setDetectionLogs((prev) => [logEntry, ...prev.slice(0, 99)]);
   };
 
-  const getExplanationForPose = (alertType: string) => {
-    switch (alertType) {
-      case "Looking Away":
-        return "The student is looking away from the screen.";
-      case "Head Tilt Detected":
-        return "Head tilt might indicate checking surroundings.";
-      default:
-        return "Unusual movement detected.";
-    }
-  };
+  const addDetectionLog = (detection) => {
+    if (
+      detectionSettings.logEvents &&
+      detection &&
+      detection.class &&
+      detection.score !== undefined
+    ) {
+      const logEntry = {
+        id: Date.now(),
+        timestamp: new Date().toLocaleString(),
+        object: detection.class,
+        confidence: detection.score,
+        suspicious: detectionSettings.suspiciousClasses.includes(
+          detection.class
+        ),
+      };
 
-  const updateRiskScore = (type: string) => {
-    setRiskScore((prev) => {
-      let newScore = prev;
-      if (["Looking Away", "Head Tilt Detected"].includes(type)) {
-        newScore += 15;
+      setDetectionLogs((prev) => [logEntry, ...prev.slice(0, 99)]);
+
+      if (logEntry.suspicious) {
+        updateRiskScore(detection.class);
       }
-      return Math.min(newScore, 100);
-    });
+    }
   };
 
   return (
@@ -96,9 +147,10 @@ function App() {
       </header>
 
       <main className="max-w-5xl mx-auto py-10 space-y-8 px-6">
-        {/* Pose Detection & Alert */}
+        {/* Pose Detection */}
         <PoseDetection onCheatingPose={handleCheatingPose} />
 
+        {/* Risk Score + Alert */}
         <div className="mb-4 text-center">
           <div className="text-sm text-gray-300">
             🧪 Cheating Risk Score:{" "}
@@ -127,30 +179,28 @@ function App() {
           </div>
         )}
 
-        {/* Detection Section */}
+        {/* Live Detection */}
         <section className="bg-slate-800 rounded-xl p-6 shadow-lg">
           <h2 className="text-xl font-semibold mb-4">📷 Live Detection</h2>
-          <RealTimeDetection />
-        </section>
-
-        {/* Settings Section */}
-        <section className="bg-slate-800 rounded-xl p-6 shadow-lg">
-          <h2 className="text-xl font-semibold mb-4">⚙️ Detection Settings</h2>
-          <div className="text-gray-400 italic">
-            Settings panel coming soon…
-          </div>
+          <RealTimeDetection
+            settings={detectionSettings}
+            onDetection={addDetectionLog}
+          />
         </section>
 
         {/* Logs Section */}
         <section className="bg-slate-800 rounded-xl p-6 shadow-lg">
           <h2 className="text-xl font-semibold mb-4">📝 Detection Logs</h2>
-          <div className="text-gray-400 italic">No logs yet.</div>
+          <DetectionLogs
+            logs={detectionLogs}
+            onClearLogs={() => setDetectionLogs([])}
+          />
         </section>
       </main>
 
       {/* Footer */}
       <footer className="text-center py-6 border-t border-red-600 text-xs text-red-300">
-        Built with React + Tailwind • CP4 Complete
+        Built with React + Tailwind • CP5 Complete
       </footer>
     </div>
   );
