@@ -172,6 +172,7 @@ src/
   </tr>
  
 </table>
+<table>
 <caption><strong>CP8-Final YOLO Detection Integration</strong></caption>
   
   <tr>
