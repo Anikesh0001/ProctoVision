@@ -5,29 +5,36 @@ import {
   AlertTriangle,
   Settings,
   BrainCircuit,
+  Activity,
 } from "lucide-react";
+
 import RealTimeDetection from "./components/RealTimeDetection";
 import DetectionSettings from "./components/DetectionSettings";
 import DetectionLogs from "./components/DetectionLogs";
 import PoseDetection from "./components/PoseDetection";
 import ConceptsOverview from "./components/ConceptsOverview";
 import YOLOArchitecture from "./components/YOLOArchitecture";
+import RiskScoreChart from "./components/RiskScoreChart";
 
 const playAlertSound = () => {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
+
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
+
     oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
     oscillator.frequency.setValueAtTime(600, audioCtx.currentTime + 0.1);
     oscillator.frequency.setValueAtTime(800, audioCtx.currentTime + 0.2);
+
     gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(
       0.01,
       audioCtx.currentTime + 0.3
     );
+
     oscillator.start(audioCtx.currentTime);
     oscillator.stop(audioCtx.currentTime + 0.3);
   } catch (error) {
@@ -51,18 +58,21 @@ function App() {
       "toothbrush",
     ],
   });
+
   const [detectionLogs, setDetectionLogs] = useState([]);
   const [poseAlerts, setPoseAlerts] = useState([]);
   const [lastSuspiciousTime, setLastSuspiciousTime] = useState(0);
   const [lastPoseMessage, setLastPoseMessage] = useState("");
   const [poseExplanation, setPoseExplanation] = useState("");
   const [riskScore, setRiskScore] = useState(0);
+  const [riskHistory, setRiskHistory] = useState([]);
 
   const tabs = [
     { id: "detection", label: "Live Detection", icon: Camera },
     { id: "settings", label: "Settings", icon: Settings },
     { id: "logs", label: "Detection Logs", icon: AlertTriangle },
-    { id: "learning", label: "YOLO Learning", icon: BrainCircuit }, // ✅ CP7
+    { id: "learning", label: "YOLO Learning", icon: BrainCircuit },
+    { id: "riskchart", label: "Risk Chart", icon: Activity },
   ];
 
   const updateRiskScore = (type) => {
@@ -79,7 +89,14 @@ function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setRiskScore((prev) => Math.max(prev - 1, 0));
+      setRiskScore((prev) => {
+        const reduced = Math.max(prev - 1, 0);
+        setRiskHistory((hist) => [
+          ...hist.slice(-29),
+          { time: new Date().toLocaleTimeString(), score: reduced },
+        ]);
+        return reduced;
+      });
     }, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -96,14 +113,13 @@ function App() {
         ),
       };
       setDetectionLogs((prev) => [logEntry, ...prev.slice(0, 99)]);
-      if (logEntry.suspicious) {
-        updateRiskScore(detection.class);
-      }
+      if (logEntry.suspicious) updateRiskScore(detection.class);
     }
   };
 
   const handleCheatingPose = (alertType) => {
     const now = Date.now();
+
     if (!alertType || alertType === "Pose Normal") {
       setLastPoseMessage("");
       setLastSuspiciousTime(0);
@@ -112,9 +128,7 @@ function App() {
       return;
     }
 
-    if (detectionSettings.alertSound) {
-      playAlertSound();
-    }
+    if (detectionSettings.alertSound) playAlertSound();
 
     setLastSuspiciousTime(now);
     setLastPoseMessage(alertType);
@@ -136,11 +150,11 @@ function App() {
   const getExplanationForPose = (alertType) => {
     switch (alertType) {
       case "Looking Away":
-        return "The student is looking away from the screen — could be distracted or cheating.";
+        return "The student is looking away from the screen.";
       case "Head Tilt Detected":
-        return "The student tilted their head, possibly checking surroundings or notes.";
+        return "The student tilted their head, possibly checking surroundings.";
       default:
-        return "Unusual posture or movement detected.";
+        return "Unusual movement detected.";
     }
   };
 
@@ -164,7 +178,7 @@ function App() {
               </div>
             </div>
             <div className="flex items-center space-x-2 text-red-300">
-              <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />
               <span className="text-sm">Live Monitoring</span>
             </div>
           </div>
@@ -233,22 +247,34 @@ function App() {
             />
           </>
         )}
+
         {activeTab === "settings" && (
           <DetectionSettings
             settings={detectionSettings}
             onSettingsChange={setDetectionSettings}
           />
         )}
+
         {activeTab === "logs" && (
           <DetectionLogs
             logs={detectionLogs}
             onClearLogs={() => setDetectionLogs([])}
           />
         )}
+
         {activeTab === "learning" && (
           <div className="space-y-12">
             <ConceptsOverview />
             <YOLOArchitecture />
+          </div>
+        )}
+
+        {activeTab === "riskchart" && (
+          <div className="bg-slate-800 rounded-xl p-6 shadow-lg">
+            <h2 className="text-xl font-semibold mb-4 text-white">
+              📈 Risk Score Trends
+            </h2>
+            <RiskScoreChart data={riskHistory} />
           </div>
         )}
       </main>

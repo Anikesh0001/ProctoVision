@@ -235,6 +235,18 @@ npm run dev
 
 ---
 
+---
+
+## 🚀 Features
+
+## 📥 Project Presentation
+
+You can view or download our project presentation PPT from the link below:
+
+👉 [Click here to download the PPT](./myppt.pptx)
+
+---
+
 ## 👥 Team AIvengers
 
 - **Anikesh Kumar** – AI Developer, Backend, Integration
