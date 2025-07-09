@@ -195,6 +195,21 @@ src/
   </tr>
  
 </table>
+<table>
+
+<caption><strong>CP9-Risk Graph And Features</strong></caption>
+  
+  <tr>
+    <td>
+      <img src="./public/screenshots/cp9_1.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+     <td>
+      <img src="./public/screenshots/cp9_2.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+   
+  </tr>
+ 
+</table>
 
 ---
 
