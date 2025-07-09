@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Camera, Shield, AlertTriangle, Settings } from "lucide-react";
+import {
+  Camera,
+  Shield,
+  AlertTriangle,
+  Settings,
+  Lightbulb,
+} from "lucide-react";
 import RealTimeDetection from "./components/RealTimeDetection";
 import DetectionSettings from "./components/DetectionSettings";
 import DetectionLogs from "./components/DetectionLogs";
 import PoseDetection from "./components/PoseDetection";
+import ConceptsOverview from "./components/ConceptsOverview";
+import YOLOArchitecture from "./components/YOLOArchitecture";
 
+// 🔊 Reusable alert sound
 const playAlertSound = () => {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -33,7 +42,6 @@ const playAlertSound = () => {
 
 function App() {
   const [activeTab, setActiveTab] = useState("detection");
-
   const [detectionSettings, setDetectionSettings] = useState({
     sensitivity: 0.6,
     alertSound: true,
@@ -139,6 +147,7 @@ function App() {
     { id: "detection", label: "Live Detection", icon: Camera },
     { id: "settings", label: "Settings", icon: Settings },
     { id: "logs", label: "Detection Logs", icon: AlertTriangle },
+    { id: "concepts", label: "Learning Visualizer", icon: Lightbulb },
   ];
 
   return (
@@ -168,7 +177,7 @@ function App() {
         </div>
       </header>
 
-      {/* Navigation */}
+      {/* Tabs */}
       <nav className="bg-black/10 backdrop-blur-sm border-b border-red-500/10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex space-x-1">
@@ -193,56 +202,66 @@ function App() {
         </div>
       </nav>
 
-      {/* Main */}
+      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <PoseDetection onCheatingPose={handleCheatingPose} />
-
-        <div className="mb-4 text-center">
-          <div className="text-sm text-gray-300">
-            🧪 Cheating Risk Score:{" "}
-            <span
-              className={`font-bold ${
-                riskScore >= 70
-                  ? "text-red-500"
-                  : riskScore >= 40
-                  ? "text-yellow-400"
-                  : "text-green-400"
-              }`}
-            >
-              {riskScore}%
-            </span>
-          </div>
-        </div>
-
-        {Date.now() - lastSuspiciousTime < 5000 && (
-          <div className="bg-red-600/90 text-white font-bold text-center py-2 rounded mb-4 animate-pulse">
-            🚨 Suspicious Behavior Detected: {lastPoseMessage}
-          </div>
-        )}
-
-        {!lastPoseMessage && (
-          <div className="text-green-400 text-sm text-center mb-4">
-            ✅ Student is in proper posture
-          </div>
-        )}
-
         {activeTab === "detection" && (
-          <RealTimeDetection
-            settings={detectionSettings}
-            onDetection={addDetectionLog}
-          />
+          <>
+            <PoseDetection onCheatingPose={handleCheatingPose} />
+            <div className="mb-4 text-center">
+              <div className="text-sm text-gray-300">
+                🧪 Cheating Risk Score:{" "}
+                <span
+                  className={`font-bold ${
+                    riskScore >= 70
+                      ? "text-red-500"
+                      : riskScore >= 40
+                      ? "text-yellow-400"
+                      : "text-green-400"
+                  }`}
+                >
+                  {riskScore}%
+                </span>
+              </div>
+            </div>
+
+            {Date.now() - lastSuspiciousTime < 5000 && (
+              <div className="bg-red-600/90 text-white font-bold text-center py-2 rounded mb-4 animate-pulse">
+                🚨 Suspicious Behavior Detected: {lastPoseMessage}
+              </div>
+            )}
+            {!lastPoseMessage && (
+              <div className="text-green-400 text-sm text-center mb-4">
+                ✅ Student is in proper posture
+              </div>
+            )}
+
+            <RealTimeDetection
+              settings={detectionSettings}
+              onDetection={addDetectionLog}
+            />
+          </>
         )}
+
         {activeTab === "settings" && (
           <DetectionSettings
             settings={detectionSettings}
             onSettingsChange={setDetectionSettings}
           />
         )}
+
         {activeTab === "logs" && (
           <DetectionLogs
             logs={detectionLogs}
             onClearLogs={() => setDetectionLogs([])}
           />
+        )}
+
+        {activeTab === "concepts" && (
+          <>
+            <ConceptsOverview />
+            <div className="my-12" />
+            <YOLOArchitecture />
+          </>
         )}
       </main>
 
