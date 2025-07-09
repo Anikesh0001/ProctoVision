@@ -76,18 +76,17 @@ src/
 
 ## 🧭 Hackathon Checkpoint Plan
 
-| CP  | Goal                                   | Files Involved                                                                         |
-| --- | -------------------------------------- | -------------------------------------------------------------------------------------- |
-| CP1 | Kickoff & folder setup                 | Project init, Tailwind setup                                                           |
-| CP2 | UI Layout Scaffold                     | `App.tsx`, `main.tsx`, Tailwind layout, placeholder sections                           |
-| CP3 | Live Webcam + Object Detection (TFJS)  | `RealTimeDetection.tsx`, `@tensorflow-models/coco-ssd`, webcam, canvas, detection loop |
-| CP4 | Alert System + Pose Monitoring         | `AlertBanner.tsx`, `PoseDetection.tsx`, `App.tsx`, risk score, suspicious pose alerts  |
-| CP5 | Detection Logs + Risk Calculation      | `DetectionLogs.tsx`, `App.tsx`, timestamp logs, filters, risk scoring                  |
-| CP6 | Detection Settings Panel               | `DetectionSettings.tsx`, user control for classes, sound, sensitivity, logging         |
-| CP7 | Learning Visualizations                | `ConceptsOverview.tsx`, `YOLOArchitecture.tsx`, CV education with YOLO visual grid     |
-| CP8 | Annotation + Detection Demo Playground | `BoundingBoxDemo.tsx`, `ObjectDetectionDemo.tsx`, box drawing + fake detection sim     |
-| CP9 | Final Polishing & Deployment Ready | Code cleanup, UI polish, README update, final demo review |
-
+| CP  | Goal                                  | Files Involved                                                                         |
+| --- | ------------------------------------- | -------------------------------------------------------------------------------------- |
+| CP1 | Kickoff & folder setup                | Project init, Tailwind setup                                                           |
+| CP2 | UI Layout Scaffold                    | `App.tsx`, `main.tsx`, Tailwind layout, placeholder sections                           |
+| CP3 | Live Webcam + Object Detection (TFJS) | `RealTimeDetection.tsx`, `@tensorflow-models/coco-ssd`, webcam, canvas, detection loop |
+| CP4 | Alert System + Pose Monitoring        | `AlertBanner.tsx`, `PoseDetection.tsx`, `App.tsx`, risk score, suspicious pose alerts  |
+| CP5 | Detection Logs + Risk Calculation     | `DetectionLogs.tsx`, `App.tsx`, timestamp logs, filters, risk scoring                  |
+| CP6 | Detection Settings Panel              | `DetectionSettings.tsx`, user control for classes, sound, sensitivity, logging         |
+| CP7 | Learning Visualizations               | `ConceptsOverview.tsx`, `YOLOArchitecture.tsx`, CV education with YOLO visual grid     |
+| CP8 | Final YOLO Detection Integration      | `RealTimeDetection.tsx`, YOLOv8 model, live object detection, risk scoring, alert flow |
+| CP9 | Final Polishing & Deployment Ready    | Code cleanup, UI polish, README update, final demo review                              |
 
 ---
 
@@ -168,6 +167,28 @@ src/
     </td>
      <td>
       <img src="./public/screenshots/cp7_3.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+   
+  </tr>
+ 
+</table>
+<caption><strong>CP8-Final YOLO Detection Integration</strong></caption>
+  
+  <tr>
+    <td>
+      <img src="./public/screenshots/cp8_1.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+     <td>
+      <img src="./public/screenshots/cp8_2.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+   
+  </tr>
+  <tr>
+    <td>
+      <img src="./public/screenshots/cp8_3.png" alt="CP0 Screenshot" width="400"/>
+    </td>
+     <td>
+      <img src="./public/screenshots/cp8_4.png" alt="CP0 Screenshot" width="400"/>
     </td>
    
   </tr>

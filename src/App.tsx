@@ -4,7 +4,7 @@ import {
   Shield,
   AlertTriangle,
   Settings,
-  Lightbulb,
+  BrainCircuit,
 } from "lucide-react";
 import RealTimeDetection from "./components/RealTimeDetection";
 import DetectionSettings from "./components/DetectionSettings";
@@ -13,26 +13,21 @@ import PoseDetection from "./components/PoseDetection";
 import ConceptsOverview from "./components/ConceptsOverview";
 import YOLOArchitecture from "./components/YOLOArchitecture";
 
-// 🔊 Reusable alert sound
 const playAlertSound = () => {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
-
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
-
     oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
     oscillator.frequency.setValueAtTime(600, audioCtx.currentTime + 0.1);
     oscillator.frequency.setValueAtTime(800, audioCtx.currentTime + 0.2);
-
     gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(
       0.01,
       audioCtx.currentTime + 0.3
     );
-
     oscillator.start(audioCtx.currentTime);
     oscillator.stop(audioCtx.currentTime + 0.3);
   } catch (error) {
@@ -56,13 +51,19 @@ function App() {
       "toothbrush",
     ],
   });
-
   const [detectionLogs, setDetectionLogs] = useState([]);
   const [poseAlerts, setPoseAlerts] = useState([]);
   const [lastSuspiciousTime, setLastSuspiciousTime] = useState(0);
   const [lastPoseMessage, setLastPoseMessage] = useState("");
   const [poseExplanation, setPoseExplanation] = useState("");
   const [riskScore, setRiskScore] = useState(0);
+
+  const tabs = [
+    { id: "detection", label: "Live Detection", icon: Camera },
+    { id: "settings", label: "Settings", icon: Settings },
+    { id: "logs", label: "Detection Logs", icon: AlertTriangle },
+    { id: "learning", label: "YOLO Learning", icon: BrainCircuit }, // ✅ CP7
+  ];
 
   const updateRiskScore = (type) => {
     setRiskScore((prev) => {
@@ -103,11 +104,11 @@ function App() {
 
   const handleCheatingPose = (alertType) => {
     const now = Date.now();
-
     if (!alertType || alertType === "Pose Normal") {
       setLastPoseMessage("");
       setLastSuspiciousTime(0);
       setPoseExplanation("");
+      addDetectionLog(alertType);
       return;
     }
 
@@ -135,20 +136,13 @@ function App() {
   const getExplanationForPose = (alertType) => {
     switch (alertType) {
       case "Looking Away":
-        return "The student is looking away from the screen.";
+        return "The student is looking away from the screen — could be distracted or cheating.";
       case "Head Tilt Detected":
-        return "Head tilt might indicate checking surroundings.";
+        return "The student tilted their head, possibly checking surroundings or notes.";
       default:
-        return "Unusual movement detected.";
+        return "Unusual posture or movement detected.";
     }
   };
-
-  const tabs = [
-    { id: "detection", label: "Live Detection", icon: Camera },
-    { id: "settings", label: "Settings", icon: Settings },
-    { id: "logs", label: "Detection Logs", icon: AlertTriangle },
-    { id: "concepts", label: "Learning Visualizer", icon: Lightbulb },
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-red-900 to-slate-900">
@@ -177,7 +171,7 @@ function App() {
         </div>
       </header>
 
-      {/* Tabs */}
+      {/* Navigation */}
       <nav className="bg-black/10 backdrop-blur-sm border-b border-red-500/10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex space-x-1">
@@ -223,7 +217,6 @@ function App() {
                 </span>
               </div>
             </div>
-
             {Date.now() - lastSuspiciousTime < 5000 && (
               <div className="bg-red-600/90 text-white font-bold text-center py-2 rounded mb-4 animate-pulse">
                 🚨 Suspicious Behavior Detected: {lastPoseMessage}
@@ -234,34 +227,29 @@ function App() {
                 ✅ Student is in proper posture
               </div>
             )}
-
             <RealTimeDetection
               settings={detectionSettings}
               onDetection={addDetectionLog}
             />
           </>
         )}
-
         {activeTab === "settings" && (
           <DetectionSettings
             settings={detectionSettings}
             onSettingsChange={setDetectionSettings}
           />
         )}
-
         {activeTab === "logs" && (
           <DetectionLogs
             logs={detectionLogs}
             onClearLogs={() => setDetectionLogs([])}
           />
         )}
-
-        {activeTab === "concepts" && (
-          <>
+        {activeTab === "learning" && (
+          <div className="space-y-12">
             <ConceptsOverview />
-            <div className="my-12" />
             <YOLOArchitecture />
-          </>
+          </div>
         )}
       </main>
 
