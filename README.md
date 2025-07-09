@@ -142,6 +142,17 @@ src/
       <img src="./public/screenshots/cp5.png" alt="CP0 Screenshot" width="800"/>
     </td>
     
+  </tr>
+</table>
+<table>
+
+<caption><strong>CP6-Detection Settings Panel</strong></caption>
+  
+  <tr>
+    <td>
+      <img src="./public/screenshots/cp6.png" alt="CP0 Screenshot" width="800"/>
+    </td>
+    
    
   </tr>
 </table>
